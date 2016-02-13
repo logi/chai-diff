@@ -1,7 +1,7 @@
 {
   "name": "chai-diff",
-  "version": "0.0.1",
-  "description": "Adds expectations to chai which compare string or objects using jsdiff.",
+  "version": "0.0.2",
+  "description": "Adds expectations to chai which compare string or objects using diff.",
   "keywords": [
     "chai",
     "diff"

@@ -4,11 +4,13 @@ chai-diff
 Adds expectations to [chai](http://chaijs.com/) which compare string or objects using [jsdiff](https://github.com/kpdecker/jsdiff).
 
 ```javascript
-expect(oneString).diffLines(anotherString, options)
-expect(oneObject).diffJson(anotherObject, options)
+expect(value).differentFrom(another, options)
+expect(value).not.differentFrom(another, options)
+expect(value).to.be.differentFrom(another, options)
+expect(value).not.to.be.differentFrom(another, options)
 ```
 
-This will compare two strings or convert two objects to JSON strings and then compare them.
+This will compare two strings or convert two objects to JSON strings and then compare them. One oddity is that the base form expects the objects to be different and you will generally use the `.not.differentFrom` form.
 
 The `options` object is optional and can have the following keys:
 
@@ -47,6 +49,5 @@ TODO
 
 Further improvements:
 
-* Support more natural expectation syntax. If your chai-foo is more powerful than mine, please send me a pull request for that!
 * More options for which whitespace to ignore
-* An option to show less context around differences.
+* An option to control the amount of context around differences.

@@ -11,6 +11,13 @@ var diff = require('diff');
 module.exports = function (chai) {
     var Assertion = chai.Assertion;
 
+    function stringify(v) {
+        if (typeof(v) === 'string') {
+            return v;
+        }
+        return JSON.stringify(v, null, 2);
+    }
+
     /** Normalize white space in strings for relaxed comparison. */
     function normalize(s) {
         return s
@@ -23,7 +30,7 @@ module.exports = function (chai) {
             .replace(/[\n\f\r\v]+/g, '\n');  // Remove empty lines (may have contained spaces before)
     }
 
-    function diffStrings(actual, expected, options) {
+    function diffLines(actual, expected, options) {
         if (options == undefined) {
             options = {};
         }
@@ -79,7 +86,8 @@ module.exports = function (chai) {
 
     /**
      * Diff the actual value against an expected value line by line and if different,
-     * show a full difference with lines added and lines removed.
+     * show a full difference with lines added and lines removed. If non-string values
+     * as being compared they are JSON stringified first.
      *
      * Takes an optional options object with flags for:
      *   - showSpace (false) whether to replace whitespace with unicode dots and arrows
@@ -87,35 +95,15 @@ module.exports = function (chai) {
      *         This is removes empty lines, removes spaces from beginning and end of lines
      *         and compresses sequences of white-space to a single space.
      */
-    Assertion.addMethod('diffLines', function (expected, options) {
-        var actualStr = '' + this._obj;
-        var expectedStr = '' + expected;
-        var result = diffStrings(actualStr, expectedStr, options);
+    Assertion.addMethod('differentFrom', function (expected, options) {
+        var actualStr = stringify(this._obj);
+        var expectedStr = stringify(expected);
+        var result = diffLines(actualStr, expectedStr, options);
         this.assert(
-            result.diffCount == 0,
-            'Got ' + result.diffCount + ' unexpected differences:\n' + result.diffStr,
-            'Strings were unexpectedly identical:\n' + actualStr
+            result.diffCount != 0,
+            'Strings were unexpectedly identical:\n' + actualStr,
+            'Got ' + result.diffCount + ' unexpected differences:\n' + result.diffStr
         );
     });
 
-    /**
-     * Diff the actual value against an expected value line by line and if different,
-     * show a full difference with lines added and lines removed.
-     *
-     * Takes an optional options object with flags for:
-     *   - showSpace (false) whether to replace whitespace with unicode dots and arrows
-     *   - relaxedSpaces (false) whether to normalize strings before comparing them.
-     *         This is removes empty lines, removes spaces from beginning and end of lines
-     *         and compresses sequences of white-space to a single space.
-     */
-    Assertion.addMethod('diffJson', function (expected, options) {
-        var actualStr = JSON.stringify(this._obj, null, 2);
-        var expectedStr = JSON.stringify(expected, null, 2);
-        var result = diffStrings(actualStr, expectedStr, options);
-        this.assert(
-            result.diffCount == 0,
-            'Got ' + result.diffCount + ' unexpected differences:\n' + result.diffStr,
-            'JSON representations were unexpectedly identical:\n' + actualStr
-        );
-    });
 };

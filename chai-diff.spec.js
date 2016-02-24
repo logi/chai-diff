@@ -72,4 +72,87 @@ describe('chai-diff', function () {
         expect('123').to.be.not.differentFrom('123');
     });
 
+    it('supports variable amount of context at beginning and end', function () {
+        var r = chaiDiff.diffLines(
+            '123\n234\n345\n456\n567\n678\n789\n890\n901',
+            '123\n234\n345\n456\nXXX\n678\n789\n890\n901', {
+                context: 2
+            });
+        expect(r.diffStr).equal(
+            '  ⋮\n' +
+            '  345\n' +
+            '  456\n' +
+            '- 567\n' +
+            '+ XXX\n' +
+            '  678\n' +
+            '  789\n' +
+            '  ⋮'
+        );
+        expect(r.diffCount).equal(1);
+    });
+
+    it('supports variable amount of context in middle', function () {
+        var r = chaiDiff.diffLines(
+            '123\n234\n345\n456\n567\n678\n789\n890\n901\n012',
+            '123\nXXX\n345\n456\n567\n678\n789\n890\nXXX\n012', {
+                context: 2
+            });
+        expect(r.diffStr).equal(
+            '  123\n' +
+            '- 234\n' +
+            '+ XXX\n' +
+            '  345\n' +
+            '  456\n' +
+            '  ⋮\n' +
+            '  789\n' +
+            '  890\n' +
+            '- 901\n' +
+            '+ XXX\n' +
+            '  012'
+        );
+        expect(r.diffCount).equal(2);
+    });
+
+    it('supports variable amount of context flowing together', function () {
+        var r = chaiDiff.diffLines(
+            '123\n234\n345\n456\n567\n678\n789',
+            '123\nXXX\n345\n456\n567\nXXX\n789',
+            {
+                context: 2
+            }
+        );
+        expect(r.diffStr).equal(
+            '  123\n' +
+            '- 234\n' +
+            '+ XXX\n' +
+            '  345\n' +
+            '  456\n' +
+            '  567\n' +
+            '- 678\n' +
+            '+ XXX\n' +
+            '  789'
+        );
+        expect(r.diffCount).equal(2);
+    });
+
+    it('shows no newline on inserted vertical ellipsis', function () {
+        var r = chaiDiff.diffLines(
+            '123\n234\n345\n456\n567\n678\n789\n890\n901',
+            '123\n234\n345\n456\nXXX\n678\n789\n890\n901', {
+                context: 2,
+                showSpace: true
+            });
+        expect(r.diffStr).equal(
+            '  ⋮\n' +
+            '  345↩\n' +
+            '  456↩\n' +
+            '- 567↩\n' +
+            '+ XXX↩\n' +
+            '  678↩\n' +
+            '  789↩\n' +
+            '  ⋮'
+        );
+        expect(r.diffCount).equal(1);
+    });
+
 });

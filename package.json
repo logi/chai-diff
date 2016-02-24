@@ -1,6 +1,6 @@
 {
   "name": "chai-diff",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Adds expectations to chai which compare strings or objects using diff.",
   "keywords": [
     "chai",
@@ -25,7 +25,6 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "karma": "^0.13.21",
     "mocha": "^2.4.5"
   },
   "scripts": {

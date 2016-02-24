@@ -11,7 +11,7 @@ expect(value).not.to.be.differentFrom(another, options)
 
 This will compare two strings or convert two objects to JSON strings and then compare them. One oddity is that the base form expects the objects to be different and you will generally use the `.not.differentFrom` form.
 
-The `options` object is optional and can have the following flags:
+The `options` object is optional and can have the following options:
 
 * `showSpace [false]` Whether to convert whitespace to visible unicode characters in output.
 * `relaxedSpace [false]` Whether to normalise whitespace before comparing strings. This
@@ -19,6 +19,7 @@ The `options` object is optional and can have the following flags:
     - removes all trailing whitespace
     - replaces all sequences of whitespace with a single space
     - removes any empty lines
+* `context [10]` How many lines of context to show on each side of a difference
 
 ## Installation in Node (CommonJS)
 
@@ -75,4 +76,3 @@ This is useful if:
 Further improvements:
 
 * More options for which whitespace to ignore
-* An option to control the amount of context around differences.

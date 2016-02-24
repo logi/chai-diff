@@ -66,17 +66,15 @@
             .replace(/[\n\f\r\v]+/g, '\n');  // Remove empty lines (may have contained spaces before)
     };
 
-    var NONE = null,
-        CTX = '  ',
+    var CTX = '  ',
         ADD = '+ ',
         SUB = '- ';
 
     chaiDiff.diffLines = function (expected, actual, options) {
-        if (options == undefined) {
-            options = {};
-        }
+        options = options || {};
         var showSpace = !!options.showSpace;
         var relaxedSpace = !!options.relaxedSpace;
+        var context = parseInt(options.context) || 10;
 
         // Stringify and normalize objects
         if (relaxedSpace) {
@@ -87,10 +85,12 @@
         var diffParts = diff.diffLines(expected, actual);
         var diffStr = [];
         var diffCount = 0;
-        var lastAction = NONE;
-        var lastPart = NONE;
-        diffParts.forEach(function (part) {
-            var action = CTX;
+        var lastAction;
+        diffParts.forEach(function (part, idx) {
+            var action;
+            var value = part.value;
+            var isFirst = idx == 0;
+            var isLast = idx == diffParts.length - 1;
             if (part.added) {
                 action = ADD;
                 if (lastAction !== SUB) {
@@ -101,12 +101,34 @@
                 if (lastAction !== ADD) {
                     diffCount++;
                 }
+            } else {
+                action = CTX;
+                if (value.charAt(value.length - 1) == '\n') {
+                    value = value.substr(0, value.length - 1);
+                    var choppedNewline = true;
+                }
+                var lines = value.split('\n');
+                var pickedLines = [];
+                var gap = lines.length > (isFirst ? 0 : context) + (isLast ? 0 : context);
+                if (!isFirst) {
+                    pickedLines = pickedLines.concat(lines.slice(0, context));
+                }
+                if (gap) {
+                    pickedLines.push('⋮');
+                }
+                if (!isLast) {
+                    pickedLines = pickedLines.concat(lines.slice(Math.max(lines.length - context, pickedLines.length)));
+                }
+                value = pickedLines.join('\n');
+                if (choppedNewline) {
+                    value += '\n';
+                }
             }
-            var value = part.value;
             if (showSpace) {
                 value = value.replace(/ /g, '·');
                 value = value.replace(/\t/g, '  → ');
                 value = value.replace(/\n/g, '↩\n');
+                value = value.replace(/^⋮↩\n/g, '⋮\n');  // Don't show newline after ellipsis that we inserted
             }
 
             // Add +, - or space at the beginning of each line in value.
@@ -118,7 +140,6 @@
             }
             diffStr.push(value);
             lastAction = action;
-            lastPart = part;
         });
 
         // Remove any trailing line-feeds which we may have over-zelously added above

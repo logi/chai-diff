@@ -6,15 +6,15 @@ chai.use(chaiDiff);
 
 describe('chai-diff', function () {
 
-    it('should accept identical strings', function () {
+    it('accepts identical strings', function () {
         expect('1234\n4321').not.differentFrom('1234\n4321');
     });
 
-    it('should accept different strings', function () {
+    it('accepts different strings', function () {
         expect('1234\n4321').differentFrom('4321\n1234');
     });
 
-    it('should accept different strings', function () {
+    it('accepts different strings', function () {
         var actual = [
             '1234',
             '4321'
@@ -35,11 +35,11 @@ describe('chai-diff', function () {
         }
     });
 
-    it('should accept identical objects', function () {
+    it('accepts identical objects', function () {
         expect({foo: 42, bar: 69}).not.differentFrom({foo: 42, bar: 69});
     });
 
-    it('should accept different objects', function () {
+    it('accepts different objects', function () {
         var actual = {
             foo: 42,
             zoo: 123,
@@ -63,7 +63,7 @@ describe('chai-diff', function () {
         }
     });
 
-    it('should allow natural syntax', function () {
+    it('allows natural syntax', function () {
         expect('123').differentFrom('321');
         expect('123').to.be.differentFrom('321');
         expect('123').not.differentFrom('123');

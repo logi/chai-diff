@@ -52,7 +52,6 @@ define(['chai', 'chai-diff', ...], function(chai, chaiDiff, ...) {
 Finally, if neither CommonJS nor AMD is detected, a global varialbe `chaiDiff` is created and can be used with:
 
 ```javascript
-
 <script src="chai.js"></script>
 <script src="diff.js"></script>
 <script src="chai-diff.js"></script>
@@ -60,7 +59,6 @@ Finally, if neither CommonJS nor AMD is detected, a global varialbe `chaiDiff` i
     chai.use(chaiDiff);
     ...
 </script>
-
 ```
 
 See `test.html` for an example

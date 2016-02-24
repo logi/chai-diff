@@ -37,7 +37,7 @@
         Assertion.addMethod('differentFrom', function (expected, options) {
             var actualStr = chaiDiff.stringify(this._obj);
             var expectedStr = chaiDiff.stringify(expected);
-            var result = chaiDiff.diffLines(actualStr, expectedStr, options);
+            var result = chaiDiff.diffLines(expectedStr, actualStr, options);
             this.assert(
                 result.diffCount != 0,
                 'Strings were unexpectedly identical:\n' + actualStr,
@@ -66,7 +66,12 @@
             .replace(/[\n\f\r\v]+/g, '\n');  // Remove empty lines (may have contained spaces before)
     };
 
-    chaiDiff.diffLines = function (actual, expected, options) {
+    var NONE = null,
+        CTX = '  ',
+        ADD = '+ ',
+        SUB = '- ';
+
+    chaiDiff.diffLines = function (expected, actual, options) {
         if (options == undefined) {
             options = {};
         }
@@ -82,14 +87,20 @@
         var diffParts = diff.diffLines(expected, actual);
         var diffStr = [];
         var diffCount = 0;
+        var lastAction = NONE;
+        var lastPart = NONE;
         diffParts.forEach(function (part) {
-            var action = '  ';
+            var action = CTX;
             if (part.added) {
-                action = '+ ';
-                diffCount++;
+                action = ADD;
+                if (lastAction !== SUB) {
+                    diffCount++;
+                }
             } else if (part.removed) {
-                action = '- ';
-                diffCount++;
+                action = SUB;
+                if (lastAction !== ADD) {
+                    diffCount++;
+                }
             }
             var value = part.value;
             if (showSpace) {
@@ -106,6 +117,8 @@
                 value += '\n';
             }
             diffStr.push(value);
+            lastAction = action;
+            lastPart = part;
         });
 
         // Remove any trailing line-feeds which we may have over-zelously added above

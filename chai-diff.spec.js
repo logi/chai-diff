@@ -1,7 +1,7 @@
 var chai = require('chai');
 var expect = chai.expect;
 
-var chaiDiff = require('./index.js');
+var chaiDiff = require('./chai-diff.js');
 chai.use(chaiDiff);
 
 describe('chai-diff', function () {

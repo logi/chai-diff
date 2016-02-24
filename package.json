@@ -1,12 +1,12 @@
 {
   "name": "chai-diff",
-  "version": "0.0.4",
-  "description": "Adds expectations to chai which compare string or objects using diff.",
+  "version": "0.1.0",
+  "description": "Adds expectations to chai which compare strings or objects using diff.",
   "keywords": [
     "chai",
     "diff"
   ],
-  "main": "index.js",
+  "main": "chai-diff.js",
   "license": "LGPL-3.0",
   "author": "Logi Ragnarsson <logi@logi.org> (http://logi.org)",
   "homepage": "https://github.com/logi/chai-diff",

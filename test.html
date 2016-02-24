@@ -1,0 +1,45 @@
+<html>
+<head>
+    <script src="node_modules/mocha/mocha.js"></script>
+    <script src="node_modules/chai/chai.js"></script>
+    <script src="node_modules/diff/dist/diff.js"></script>
+    <script src="chai-diff.js"></script>
+</head>
+<body>
+<div id="mocha">
+</div>
+
+<script>
+    try {
+        mocha.setup('bdd');
+        chai.use(chaiDiff);
+        var expect = chai.expect;
+
+        describe('The World', function () {
+
+            it('can be tested', function () {
+                expect(123).to.equal(123);
+            });
+
+            it('can be diffed (equal)', function () {
+                expect('123\n456').not.differentFrom('123\n456', {relaxedSpace: false});
+            });
+
+            it('can be diffed (less equal)', function () {
+                expect('123\n456').not.differentFrom(' 123\n\t\n456 ', {relaxedSpace: true});
+            });
+
+            it('can fail', function () {
+                expect('123\n456').not.differentFrom('123\n654');
+            });
+
+        });
+
+        mocha.run();
+    } catch (e) {
+        document.getElementById('mocha').innerHTML = 'Install all required libraries with <tt style="background:#ddd; padding:0 0.3em">npm install</tt> and reload.'
+        throw e;
+    }
+</script>
+</body>
+</html>

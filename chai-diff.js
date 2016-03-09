@@ -48,7 +48,7 @@
     };
 
     chaiDiff.stringify = function (v) {
-        if (typeof(v) === 'string') {
+        if (typeof(v) === 'string' || v == null) {
             return v;
         }
         return JSON.stringify(v, null, 2);
@@ -71,6 +71,19 @@
         SUB = '- ';
 
     chaiDiff.diffLines = function (expected, actual, options) {
+        if (actual == null && expected == null) return {
+            diffCount: 0,
+            diffStr: ''
+        };
+        if (actual == null && expected != null) return {
+            diffCount: 1,
+            diffStr: 'actual is null or undefined but expected is not'
+        };
+        if (actual != null && expected == null) return {
+            diffCount: 1,
+            diffStr: 'expected is null or undefined but actual is not'
+        };
+
         options = options || {};
         var showSpace = !!options.showSpace;
         var relaxedSpace = !!options.relaxedSpace;

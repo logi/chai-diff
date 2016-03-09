@@ -155,4 +155,18 @@ describe('chai-diff', function () {
         expect(r.diffCount).equal(1);
     });
 
+    it('considers nulls and undefineds equal', function () {
+        expect(null).not.differentFrom(null);
+        expect(undefined).not.differentFrom(undefined);
+        expect(null).not.differentFrom(undefined);
+        expect(undefined).not.differentFrom(null);
+    });
+
+    it('fails gracefully on nulls and undefineds', function () {
+        expect(null).differentFrom('123');
+        expect(undefined).differentFrom('123');
+        expect('123').differentFrom(null);
+        expect('123').differentFrom(undefined);
+    });
+
 });

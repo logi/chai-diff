@@ -30,7 +30,7 @@ describe('chai-diff', function () {
         } catch (e) {
             var str = e.toString();
             //console.log(str);
-            expect(str).to.contain('Got 1 unexpected differences');
+            expect(str).to.contain('Got 1 unexpected difference');
             expect(str).to.contain('- abcd');
         }
     });
@@ -56,7 +56,7 @@ describe('chai-diff', function () {
             expect(true).equals(false);  // Should have thrown exception
         } catch (e) {
             var str = e.toString();
-            expect(str).to.contain('Got 1 unexpected differences');
+            expect(str).to.contain('Got 1 unexpected difference');
             expect(str).to.contain('-   "bar": 60');
             expect(str).to.contain('+   "bar": 69');
             expect(str).to.contain('-   "ööö": "dót"');

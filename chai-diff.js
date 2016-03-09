@@ -5,7 +5,7 @@
  */
 "use strict";
 
-// Boilerplate to support AMD (RequireJS), CommonJD (Node) and global cariables.
+// Boilerplate to support AMD (RequireJS), CommonJD (Node) and global variables.
 // http://ifandelse.com/its-not-hard-making-your-library-support-amd-and-commonjs/
 (function (root, factory) {
     if (typeof define === "function" && define.amd) {
@@ -26,13 +26,13 @@
         /**
          * Diff the actual value against an expected value line by line and if different,
          * show a full difference with lines added and lines removed. If non-string values
-         * as being compared they are JSON stringified first.
+         * are being compared, they are JSON stringified first.
          *
          * Takes an optional options object with flags for:
          *   - showSpace (false) whether to replace whitespace with unicode dots and arrows
          *   - relaxedSpaces (false) whether to normalize strings before comparing them.
-         *         This is removes empty lines, removes spaces from beginning and end of lines
-         *         and compresses sequences of white-space to a single space.
+         *         This removes empty lines, spaces from the beginning and end of each line
+         *         and compresses sequences of whitespace to a single space.
          */
         Assertion.addMethod('differentFrom', function (expected, options) {
             var actualStr = chaiDiff.stringify(this._obj);
@@ -41,7 +41,7 @@
             this.assert(
                 result.diffCount != 0,
                 'Strings were unexpectedly identical:\n' + actualStr,
-                'Got ' + result.diffCount + ' unexpected differences:\n' + result.diffStr
+                ['Got ', result.diffCount, ' unexpected difference', result.diffCount == 1 ? '' : 's', ':\n' + result.diffStr].join("")
             );
         });
 
@@ -54,7 +54,7 @@
         return JSON.stringify(v, null, 2);
     };
 
-    /** Normalize white space in strings for relaxed comparison. */
+    /** Normalize whitespace in strings for relaxed comparison. */
     chaiDiff.normalize = function (s) {
         return s
             .replace(/[ \t​]+/g, ' ')     // Replace all horizontal whitespace with single space
@@ -131,9 +131,9 @@
                 value = value.replace(/^⋮↩\n/g, '⋮\n');  // Don't show newline after ellipsis that we inserted
             }
 
-            // Add +, - or space at the beginning of each line in value.
-            // and make sure it ends with \n to not run into the next one
-            // you will need to enable showSpace to see this difference!
+            // Add +, - or space at the beginning of each line in value,
+            // and make sure it ends with \n to not run into the next one.
+            // You will need to enable showSpace to see this difference!
             value = action + value.replace(/\n(.)/g, '\n' + action + '$1');
             if (value.charAt(value.length - 1) !== '\n') {
                 value += '\n';
@@ -142,7 +142,7 @@
             lastAction = action;
         });
 
-        // Remove any trailing line-feeds which we may have over-zelously added above
+        // Remove any trailing line-feeds which we may have overzealously added above
         diffStr = diffStr.join('');
         while (diffStr.charAt(diffStr.length - 1) == '\n') {
             diffStr = diffStr.substr(0, diffStr.length - 1);
@@ -157,4 +157,3 @@
     return chaiDiff
 
 }));
-

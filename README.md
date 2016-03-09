@@ -1,6 +1,6 @@
 #chai-diff
 
-Adds expectations to [chai](http://chaijs.com/) which compare string or objects using [jsdiff](https://github.com/kpdecker/jsdiff).
+Adds expectations to [chai](http://chaijs.com/) which compare strings or objects using [jsdiff](https://github.com/kpdecker/jsdiff).
 
 ```javascript
 expect(value).differentFrom(another, options)
@@ -13,8 +13,8 @@ This will compare two strings or convert two objects to JSON strings and then co
 
 The `options` object is optional and can have the following options:
 
-* `showSpace [false]` Whether to convert whitespace to visible unicode characters in output.
-* `relaxedSpace [false]` Whether to normalise whitespace before comparing strings. This
+* `showSpace [false]` Whether to convert whitespace to visible Unicode characters in output.
+* `relaxedSpace [false]` Whether to normalise whitespace before comparing strings. This:
     - removes all leading whitespace
     - removes all trailing whitespace
     - replaces all sequences of whitespace with a single space
@@ -27,7 +27,7 @@ The `options` object is optional and can have the following options:
 npm install chai-diff --save-dev
 ```
 
-and in your specs add:
+In your specs, add:
 
 ```javascript
 chai.use(require('chai-diff'));
@@ -52,7 +52,7 @@ define(['chai', 'chai-diff', ...], function(chai, chaiDiff, ...) {
 
 Finally, if neither CommonJS nor AMD is detected, a global varialbe `chaiDiff` is created and can be used with:
 
-```javascript
+```html
 <script src="chai.js"></script>
 <script src="diff.js"></script>
 <script src="chai-diff.js"></script>
@@ -68,7 +68,7 @@ See `test.html` for an example
 
 This is useful if:
 
-* You need to ignore white space in string comparisons
+* You need to ignore whitespace in string comparisons
 * Your test runner doesn't show useful differences on failures.
 
 ## TODO

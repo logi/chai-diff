@@ -1,6 +1,6 @@
 {
   "name": "chai-diff",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Adds expectations to chai which compare strings or objects using diff.",
   "keywords": [
     "chai",
@@ -18,14 +18,14 @@
     "url": "git+https://github.com/logi/chai-diff.git"
   },
   "dependencies": {
-    "diff": "^2.2.1"
+    "diff": "^5.0.0"
   },
   "peerDependencies": {
-    "chai": ">= 3.0"
+    "chai": ">= 4.0"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^2.4.5"
+    "chai": "^4.3.0",
+    "mocha": "^8.2.1"
   },
   "scripts": {
     "test": "mocha *.spec.js"
